@@ -1,12 +1,11 @@
 const drag = (event, taskId) => {
     event.dataTransfer.setData("id", taskId);
 }
-
-// CARGA COLUMNAS Y TAREAS DEL LOCAL STORAGE -- //
 const columns = localStorage.getItem('columns') ? JSON.parse(localStorage.getItem('columns')) : [];
 
+// CARGA COLUMNAS Y TAREAS DEL LOCAL STORAGE -- //
 columns.forEach(column => {
-    let taskInStorage="";
+    let taskInStorage = "";
     if (column.tasks.length > 0) {
         column.tasks.forEach(task => {
             taskInStorage += `
@@ -14,10 +13,8 @@ columns.forEach(column => {
                 <h6>${task.title}</h6>
                 <i class="far fa-trash-alt" onclick="removeTask(${task.id})"></i>
             </div>`
-
-            // que busque las tareas guardadas en el localstorage de la columna y mostrarlas.
         })
-    }  
+    }
 
     document.querySelector('main').innerHTML += ` 
     <div class="column" id="${column.id}">
@@ -39,21 +36,22 @@ columns.forEach(column => {
 // -- CARGA COLUMNAS Y TAREAS DEL LOCAL STORAGE //
 
 const removeTask = (taskId) => {
+    
+    const currentColumnId = document.getElementById(taskId).parentElement.parentElement.id; //1583419008543
+    const columns = getLocalStorageColumns();
+    const currentColumn =columns.find(column => column.id == currentColumnId);
+    const tasksFiltered = currentColumn.tasks.filter(task => task.id !== taskId);
     document.getElementById(taskId).remove();
+    currentColumn.tasks = tasksFiltered;
+    localStorage.setItem('columns', JSON.stringify(columns));
     // agregar que tambien se borren del local storage
 }
 
 const removeColumn = (columnId) => {
-    document.getElementById(columnId).remove();
-    const columns = localStorage.getItem('columns') ?
-        JSON.parse(localStorage.getItem('columns')) : [];
     const columnsFiltered = columns.filter(column => column.id !== columnId)
     localStorage.setItem('columns', JSON.stringify(columnsFiltered));
+    document.getElementById(columnId).remove();
 }
-
-// const removeTask = (event) =>{
-//     event.target.parentElement
-// }
 
 const preventDefault = event => event.preventDefault();
 const drop = event => {
@@ -118,8 +116,6 @@ function newColumn() {
             </div>`
         document.getElementById(columnId).childNodes
         document.getElementById(columnId).childNodes[5].firstChild.nextSibling.focus()
-        const columns = localStorage.getItem('columns') ?
-            JSON.parse(localStorage.getItem('columns')) : [];
         columns.push({
             id: columnId,
             title,
@@ -163,8 +159,6 @@ function newTask(event, columnId) {
                 <h6>${event.target.value}</h6>
                 <i class="far fa-trash-alt" onclick="removeTask(${taskId})"></i>
             </div>`
-        const columns = localStorage.getItem('columns') ?
-            JSON.parse(localStorage.getItem('columns')) : [];
         const currentColumn = columns.find(column => {
             console.log(column.id, columnId)
             return column.id === columnId
