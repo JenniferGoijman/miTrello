@@ -4,14 +4,28 @@ const drag = (event, taskId) => {
 
 // CARGA COLUMNAS Y TAREAS DEL LOCAL STORAGE -- //
 const columns = localStorage.getItem('columns') ? JSON.parse(localStorage.getItem('columns')) : [];
+
 columns.forEach(column => {
+    let taskInStorage="";
+    if (column.tasks.length > 0) {
+        column.tasks.forEach(task => {
+            taskInStorage += `
+            <div class="task" id="${task.id}" draggable ondragstart ="drag(event,${task.id})" >
+                <h6>${task.title}</h6>
+                <i class="far fa-trash-alt" onclick="removeTask(${task.id})"></i>
+            </div>`
+
+            // que busque las tareas guardadas en el localstorage de la columna y mostrarlas.
+        })
+    }  
+
     document.querySelector('main').innerHTML += ` 
     <div class="column" id="${column.id}">
     <div class="headColumn">
         <h5>${column.title}</h5>
         <i class="far fa-trash-alt" onclick="removeColumn(${column.id})"></i>
     </div>
-        <div class="tasks" ondragover="preventDefault(event)"  ondrop="drop(event)"></div>
+        <div class="tasks" ondragover="preventDefault(event)"  ondrop="drop(event)">${taskInStorage}</div>
 	        <div class="boxAddTask">
 		        <textarea placeholder="+ Añada una tarea" cols="25" rows="2" onkeyup="newTask(event,${column.id})" class="textAddTask"></textarea>
                 <div class="addDelTask">
@@ -20,10 +34,6 @@ columns.forEach(column => {
 		        </div>
 	        </div>
         </div>`
-
-    column.tasks.forEach(task => {
-        // que busque las tareas guardadas en el localstorage de la columna y mostrarlas.
-    })
 });
 
 // -- CARGA COLUMNAS Y TAREAS DEL LOCAL STORAGE //
