@@ -34,17 +34,16 @@ columns.forEach(column => {
 });
 
 // -- CARGA COLUMNAS Y TAREAS DEL LOCAL STORAGE //
-
 const removeTask = (taskId) => {
-    
-    const currentColumnId = document.getElementById(taskId).parentElement.parentElement.id; //1583419008543
-    const columns = getLocalStorageColumns();
-    const currentColumn =columns.find(column => column.id == currentColumnId);
-    const tasksFiltered = currentColumn.tasks.filter(task => task.id !== taskId);
+    const currentColumnId = document.getElementById(taskId).parentElement.parentElement.id;
+    removeTaskInStorage(taskId, currentColumnId);
     document.getElementById(taskId).remove();
+}
+const removeTaskInStorage = (taskId, columnId) => {
+    const currentColumn = columns.find(column => column.id == columnId);
+    const tasksFiltered = currentColumn.tasks.filter(task => task.id !== taskId);
     currentColumn.tasks = tasksFiltered;
     localStorage.setItem('columns', JSON.stringify(columns));
-    // agregar que tambien se borren del local storage
 }
 
 const removeColumn = (columnId) => {
@@ -56,8 +55,13 @@ const removeColumn = (columnId) => {
 const preventDefault = event => event.preventDefault();
 const drop = event => {
     const taskId = event.dataTransfer.getData("id");
-    const task = document.getElementById(taskId)
-    event.target.appendChild(task)
+    const task = document.getElementById(taskId);
+    const columnId = event.target.parentElement.id;
+    if (event.target.classList.contains('tasks')) {
+        event.target.appendChild(task);
+        removeTaskInStorage(taskId, columnId);
+        newTaskInStorage(taskId, task.title, columnId);
+    }
 }
 
 function ocultarAddDelColumn() {
@@ -84,8 +88,6 @@ Array.from(document.querySelectorAll('img.imgHideAddTask')).forEach(cancelButton
         ocultarAddDelTask(event.target);
     }
 })
-
-
 
 document.querySelector('.textAddColumn').onclick = event => {
     document.querySelector('div.boxAddColumn').style.height = "4em";
@@ -114,7 +116,6 @@ function newColumn() {
 		            </div>
 	            </div>
             </div>`
-        document.getElementById(columnId).childNodes
         document.getElementById(columnId).childNodes[5].firstChild.nextSibling.focus()
         columns.push({
             id: columnId,
@@ -148,10 +149,16 @@ Array.from(document.querySelectorAll('.textAddTask')).forEach(textAddTask => {
     }
 })
 
+const newTaskInStorage = (taskId, title, columnId) => {
+    const currentColumn = columns.find(column => {
+        return column.id === +columnId
+    });
+    currentColumn.tasks.push({ id: taskId, title, })
+    localStorage.setItem('columns', JSON.stringify(columns));
+}
 
-//CAMBIAR TODO LO DE ABAJO PARA AGREGAR TAREAS
 function newTask(event, columnId) {
-    const title = event.target.value;
+    const title = (event.target.value).replace("\n","");
     if (title != '' && event.key === "Enter") {
         const taskId = Date.now();
         document.getElementById(columnId).children[1].innerHTML += `
@@ -159,15 +166,7 @@ function newTask(event, columnId) {
                 <h6>${event.target.value}</h6>
                 <i class="far fa-trash-alt" onclick="removeTask(${taskId})"></i>
             </div>`
-        const currentColumn = columns.find(column => {
-            console.log(column.id, columnId)
-            return column.id === columnId
-        });
-        currentColumn.tasks.push({
-            id: taskId,
-            title,
-        })
-        localStorage.setItem('columns', JSON.stringify(columns))
+        newTaskInStorage(taskId, title, columnId);
         event.target.value = '';
         // const imgCancel=event.target.nextElementSibling.firstElementChild.firstElementChild
         // ocultarAddDelTask(imgCancel);
@@ -175,11 +174,15 @@ function newTask(event, columnId) {
         // Mensaje error: "Debe ingresar el titulo de la columna"
     }
 }
+
+
+/*
 document.querySelector('.textAddTask').onkeyup = event => {
     if (event.key === "Enter") {
-        newTask();
+        
     }
 }
+*/
 document.querySelector('.buttonAddTask').onclick = event => {
-    newTask();
+    document.querySelector('.textAddTask').onkeyup;
 }

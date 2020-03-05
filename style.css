@@ -79,13 +79,14 @@ input.textAddColumn:hover {
 
 /* DISEÑO COLUMNAS -- */
 .column {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     margin: 0.3em;
     /*min-height: 50vh;*/
     border-radius: 0.2em;
+    height: fit-content;
     background-color: #effffb;
     transition: 0.5s;
     width: 150px;
@@ -95,6 +96,7 @@ input.textAddColumn:hover {
 .headColumn {
     display: flex;
     align-items: center;
+    width: 90%;
 }
 
 .column h5 {
