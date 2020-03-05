@@ -5,17 +5,20 @@ const drag = (event, taskId) => {
 // CARGA COLUMNAS DEL LOCAL STORAGE -- //
 const columns = localStorage.getItem('columns') ? JSON.parse(localStorage.getItem('columns')) : [];
 columns.forEach(column => {
-    document.querySelector('main').innerHTML += ` <div class="column" id="${column.Id}">
+    document.querySelector('main').innerHTML += ` <div class="column" id="${column.id}">
 	<h4>${column.title}</h4>
         <div class="tasks" ondragover="preventDefault(event)"  ondrop="drop(event)"></div>
 	<div class="boxAddTask">
-		<textarea placeholder="+ Añada una tarea" cols="25" rows="2" onkeyup="newTask(event,${column.Id})" class="textAddTask"></textarea>
+		<textarea placeholder="+ Añada una tarea" cols="25" rows="2" onkeyup="newTask(event,${column.id})" class="textAddTask"></textarea>
                 <div class="addDelTask">
                     <input type="button" value="Añadir tarea" class="buttonAddTask">
                     <a href="#"><img src="/img/cancelar.png" alt="" class="imgHideAddTask"></a>
 		</div>
 	</div>
 </div>`
+column.tasks.forEach(task=>{
+
+})
 });
 // -- CARGA COLUMNAS DEL LOCAL STORAGE //
 const removeTask = (taskId) => {
@@ -43,16 +46,21 @@ document.querySelector('img.imgHideAddColumn').onclick = event => {
     ocultarAddDelColumn();
 }
 
-function ocultarAddDelTask() {
-    document.querySelector('div.boxAddTask').style.height = "2em";
-    document.querySelector('.textAddTask').placeholder = "+ Añade una tarea";
-    document.querySelector('.textAddTask').style.border = "";
-    document.querySelector('.textAddTask').style.backgroundColor = "";
-    document.querySelector('div.addDelTask').style.display = "none";
+function ocultarAddDelTask(imgCancel) {
+    const boxAddTask=imgCancel.parentElement.parentElement.parentElement
+    boxAddTask.style.height = "2em";
+    boxAddTask.firstElementChild.placeholder = "+ Añade una tarea";
+    boxAddTask.firstElementChild.style.border = "";
+    boxAddTask.firstElementChild.style.backgroundColor = "";
+    imgCancel.parentElement.parentElement.style.display = "none";
 }
-document.querySelector('img.imgHideAddTask').onclick = event => {
-    ocultarAddDelTask();
-}
+Array.from(document.querySelectorAll('img.imgHideAddTask')).forEach(cancelButton=>{
+    cancelButton.onclick = event => {
+        ocultarAddDelTask(event.target);
+    }
+})
+
+
 
 document.querySelector('.textAddColumn').onclick = event => {
     document.querySelector('div.boxAddColumn').style.height = "4em";
@@ -77,6 +85,8 @@ function newColumn() {
 		            </div>
 	            </div>
             </div>`
+            document.getElementById(columnId).childNodes
+            document.getElementById(columnId).childNodes[5].firstChild.nextSibling.focus()
         const columns = localStorage.getItem('columns') ?
             JSON.parse(localStorage.getItem('columns')) : [];
         columns.push({
@@ -87,6 +97,7 @@ function newColumn() {
         localStorage.setItem('columns', JSON.stringify(columns));
         document.querySelector('.textAddColumn').value = '';
         ocultarAddDelColumn();
+        
     } else {
         // Mensaje error: "Debe ingresar el titulo de la columna"
     }
@@ -100,18 +111,21 @@ document.querySelector('.buttonAddColumn').onclick = event => {
     newColumn();
 }
 
-document.querySelector('.textAddTask').onclick = event => {
-    document.querySelector('div.boxAddTask').style.height = "4em";
-    document.querySelector('textarea.textAddTask').placeholder = "Introduzca el nombre de la tarea";
-    document.querySelector('textarea.textAddTask').style.border = "1px solid rgb(59, 180, 228)";
-    document.querySelector('textarea.textAddTask').style.backgroundColor = "white";
-    document.querySelector('.addDelTask').style.display = "flex";
-}
+Array.from(document.querySelectorAll('.textAddTask')).forEach(textAddTask=>{
+    textAddTask.onclick = event => {
+        textAddTask.parentElement.style.height = "4em";
+        textAddTask.placeholder = "Introduzca el nombre de la tarea";
+        textAddTask.style.border = "1px solid rgb(59, 180, 228)";
+        textAddTask.style.backgroundColor = "white";
+        textAddTask.nextElementSibling.style.display = "flex";
+    }
+})
+
 
 //CAMBIAR TODO LO DE ABAJO PARA AGREGAR TAREAS
 function newTask(event, columnId) {
-    const title = document.querySelector('.textAddTask').value;
-    if (title.value != '') {
+    const title = event.target.value;
+    if (title != '' && event.key === "Enter") {
         const taskId = Date.now();
         document.getElementById(columnId).children[1].innerHTML += `
             <div class="task" id="${taskId}" draggable ondragstart ="drag(event,${taskId})" >
@@ -120,10 +134,17 @@ function newTask(event, columnId) {
             </div>`
         const columns = localStorage.getItem('columns') ?
             JSON.parse(localStorage.getItem('columns')) : [];
-        const currentColumn = columns.find(column => column.id === columnId);
-        console.log(currentColumn)
+        const currentColumn = columns.find(column =>{
+            console.log(column.id,columnId)
+            return column.id === columnId});
+        currentColumn.tasks.push({
+            id:taskId,
+            title,
+        })
+        localStorage.setItem('columns',JSON.stringify(columns))
         event.target.value = '';
-        ocultarAddDelTask();
+        // const imgCancel=event.target.nextElementSibling.firstElementChild.firstElementChild
+        // ocultarAddDelTask(imgCancel);
     } else {
         // Mensaje error: "Debe ingresar el titulo de la columna"
     }

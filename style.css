@@ -5,6 +5,12 @@
     font-family: 'Cabin Condensed', sans-serif;
 }
 
+body {
+    background-color: #4f98ca;
+    opacity: 0.9;
+    font-size: 13px;
+}
+
 main {
     display: flex;
     padding: 0.3em;
@@ -15,25 +21,30 @@ main {
     -webkit-user-drag: element;
 }
 
-/* CREAR COLUMNAS -- */
+/* MENU CREAR COLUMNAS -- */
 .boxAddColumn{
     border-radius: 0.2em;
-    background-color: rgb(238, 238, 238);
-    width: 12em;
-    height: 2em;
-    margin: 0.5em 0.5em;
+    background-color: #effffb;
+    width: 11.5em;
+    /*height: 2.5em;*/
+    margin: 0.5em 0.5em 0 0.5em;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    opacity: 1;
 }
 
 input.textAddColumn {
     all: unset;
     padding: 0.5em;
-    margin: 0.25em 0.25em;
+    margin: 0.25em;
     border-radius: 0.2em;
-    opacity: 0.5;
+    opacity: 0.75;
     font-size: 80%;
-    height: 1em;
+    /*height: auto;*/
+}
+input.textAddColumn:hover {
+    background-color: #d8d8d8;
 }
 
 .addDelColumn {
@@ -42,16 +53,12 @@ input.textAddColumn {
 }
 
 .buttonAddColumn {
-    background-color: rgb(59, 180, 228);
-    color: honeydew;
+    background-color: #4f98ca;
+    color:#272727;
     height: 2em;
     width: 8em;
     margin: 0 0.25em 0.25em 0.25em;
     font-size: 80%;
-}
-
-a {
-    margin: 0;
 }
 
 .imgHideAddColumn {
@@ -60,7 +67,7 @@ a {
     opacity: 0.75;
     margin: 5px;
 }
-/* -- CREAR COLUMNAS */
+/* -- MENU CREAR COLUMNAS */
 
 /*
 ::placeholder {
@@ -74,43 +81,67 @@ a {
     justify-content: space-between;
     align-items: center;
     margin: 0.3em;
-    min-height: 50vh;
+    /*min-height: 50vh;*/
     border-radius: 0.2em;
-    background-color: rgb(238, 238, 238);
+    background-color: #effffb;
     transition: 0.5s;
+    width: 150px;
 }
 
 .column h4 {
-    background-color: rgb(238, 238, 238);
+    background-color: #effffb;
     width: 100%;
     text-align: left;
     border-radius: 0.2em 0.2em 0 0;
     padding: 0.4em 0.4em;
 }
+
+.column:hover {
+    box-shadow: 10px 12px 20px -13px rgba(0, 0, 0, 0.75);
+
+}
+
+.tasks {
+    flex: 1;
+    width: 100%;
+    background-color: #effffb;
+}
+
+.task {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.3em;
+    border: solid #8f8e8e 1px;
+    background-color: #50d890;
+    border-radius: 0.2em;
+    margin: 0.2em;
+    cursor: pointer;
+}
 /* -- DISEÑO COLUMNAS */
 
-/* CREAR TAREAS -- */
+/* MENU CREAR TAREAS -- */
 .boxAddTask{
     border-radius: 0.2em;
-    background-color: rgb(238, 238, 238);
-    width: 12.5em;
+    background-color: #effffb;
+    width: 11.5em;
     height: 2em;
-    margin: 0.5em 0.5em;
+    margin: 0 0.5em 0 0.5em;
     display: flex;
     flex-direction: column;
+    opacity: 1;
 }
 
 textarea.textAddTask {
     all: unset;
     padding: 0.5em;
-    margin: 0.25em 0.25em;
+    margin: 0.25em 0.25em 0 0.25em;
     border-radius: 0.2em;
-    opacity: 0.5;
+    opacity: 0.75;
     font-size: 80%;
-    height: 1.25em;
-    /*border-top: unset;
-    padding: 0.5em;
-    margin: 0.25em 0.25em;*/
+    height: auto;
+}
+textarea.textAddTask:hover {
+    background-color: #d8d8d8;
 }
 
 .addDelTask {
@@ -119,8 +150,8 @@ textarea.textAddTask {
 }
 
 .buttonAddTask {
-    background-color: rgb(59, 180, 228);
-    color: honeydew;
+    background-color: #4f98ca;
+    color: #272727;
     height: 2em;
     width: 6em;
     margin: 0 0.25em 0.25em 0.25em;
@@ -133,24 +164,4 @@ textarea.textAddTask {
     opacity: 0.75;
     margin: 5px;
 }
-
-.column:hover {
-    box-shadow: 10px 12px 20px -13px rgba(0, 0, 0, 0.75);
-
-}
-
-.tasks {
-    flex: 1;
-    width: 100%;
-}
-
-.task {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.3em;
-    border: solid rgba(0, 0, 0, 0.322) 1px;
-    background-color: honeydew;
-    border-radius: 0.2em;
-    margin: 0.2em;
-    cursor: pointer;
-}
+/* -- MENU CREAR TAREAS */
