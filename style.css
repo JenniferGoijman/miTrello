@@ -1,7 +1,7 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; 
+    box-sizing: border-box;
     font-family: 'Cabin Condensed', sans-serif;
 }
 
@@ -9,6 +9,7 @@ body {
     background-color: #4f98ca;
     opacity: 0.9;
     font-size: 13px;
+    color: #272727;
 }
 
 main {
@@ -22,7 +23,7 @@ main {
 }
 
 /* MENU CREAR COLUMNAS -- */
-.boxAddColumn{
+.boxAddColumn {
     border-radius: 0.2em;
     background-color: #effffb;
     width: 11.5em;
@@ -40,9 +41,10 @@ input.textAddColumn {
     margin: 0.25em;
     border-radius: 0.2em;
     opacity: 0.75;
-    font-size: 80%;
+    font-size: 75%;
     /*height: auto;*/
 }
+
 input.textAddColumn:hover {
     background-color: #d8d8d8;
 }
@@ -54,11 +56,11 @@ input.textAddColumn:hover {
 
 .buttonAddColumn {
     background-color: #4f98ca;
-    color:#272727;
+    color: #272727;
     height: 2em;
     width: 8em;
     margin: 0 0.25em 0.25em 0.25em;
-    font-size: 80%;
+    font-size: 75%;
 }
 
 .imgHideAddColumn {
@@ -67,6 +69,7 @@ input.textAddColumn:hover {
     opacity: 0.75;
     margin: 5px;
 }
+
 /* -- MENU CREAR COLUMNAS */
 
 /*
@@ -88,7 +91,13 @@ input.textAddColumn:hover {
     width: 150px;
 }
 
-.column h4 {
+
+.headColumn {
+    display: flex;
+    align-items: center;
+}
+
+.column h5 {
     background-color: #effffb;
     width: 100%;
     text-align: left;
@@ -117,10 +126,11 @@ input.textAddColumn:hover {
     margin: 0.2em;
     cursor: pointer;
 }
+
 /* -- DISEÑO COLUMNAS */
 
 /* MENU CREAR TAREAS -- */
-.boxAddTask{
+.boxAddTask {
     border-radius: 0.2em;
     background-color: #effffb;
     width: 11.5em;
@@ -137,9 +147,10 @@ textarea.textAddTask {
     margin: 0.25em 0.25em 0 0.25em;
     border-radius: 0.2em;
     opacity: 0.75;
-    font-size: 80%;
+    font-size: 75%;
     height: auto;
 }
+
 textarea.textAddTask:hover {
     background-color: #d8d8d8;
 }
@@ -155,7 +166,7 @@ textarea.textAddTask:hover {
     height: 2em;
     width: 6em;
     margin: 0 0.25em 0.25em 0.25em;
-    font-size: 80%;
+    font-size: 75%;
 }
 
 .imgHideAddTask {
@@ -164,4 +175,5 @@ textarea.textAddTask:hover {
     opacity: 0.75;
     margin: 5px;
 }
+
 /* -- MENU CREAR TAREAS */

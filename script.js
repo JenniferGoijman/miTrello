@@ -2,28 +2,45 @@ const drag = (event, taskId) => {
     event.dataTransfer.setData("id", taskId);
 }
 
-// CARGA COLUMNAS DEL LOCAL STORAGE -- //
+// CARGA COLUMNAS Y TAREAS DEL LOCAL STORAGE -- //
 const columns = localStorage.getItem('columns') ? JSON.parse(localStorage.getItem('columns')) : [];
 columns.forEach(column => {
-    document.querySelector('main').innerHTML += ` <div class="column" id="${column.id}">
-	<h4>${column.title}</h4>
+    document.querySelector('main').innerHTML += ` 
+    <div class="column" id="${column.id}">
+    <div class="headColumn">
+        <h5>${column.title}</h5>
+        <i class="far fa-trash-alt" onclick="removeColumn(${column.id})"></i>
+    </div>
         <div class="tasks" ondragover="preventDefault(event)"  ondrop="drop(event)"></div>
-	<div class="boxAddTask">
-		<textarea placeholder="+ Añada una tarea" cols="25" rows="2" onkeyup="newTask(event,${column.id})" class="textAddTask"></textarea>
+	        <div class="boxAddTask">
+		        <textarea placeholder="+ Añada una tarea" cols="25" rows="2" onkeyup="newTask(event,${column.id})" class="textAddTask"></textarea>
                 <div class="addDelTask">
                     <input type="button" value="Añadir tarea" class="buttonAddTask">
                     <a href="#"><img src="/img/cancelar.png" alt="" class="imgHideAddTask"></a>
-		</div>
-	</div>
-</div>`
-column.tasks.forEach(task=>{
+		        </div>
+	        </div>
+        </div>`
 
-})
+    column.tasks.forEach(task => {
+        // que busque las tareas guardadas en el localstorage de la columna y mostrarlas.
+    })
 });
-// -- CARGA COLUMNAS DEL LOCAL STORAGE //
+
+// -- CARGA COLUMNAS Y TAREAS DEL LOCAL STORAGE //
+
 const removeTask = (taskId) => {
     document.getElementById(taskId).remove();
+    // agregar que tambien se borren del local storage
 }
+
+const removeColumn = (columnId) => {
+    document.getElementById(columnId).remove();
+    const columns = localStorage.getItem('columns') ?
+        JSON.parse(localStorage.getItem('columns')) : [];
+    const columnsFiltered = columns.filter(column => column.id !== columnId)
+    localStorage.setItem('columns', JSON.stringify(columnsFiltered));
+}
+
 // const removeTask = (event) =>{
 //     event.target.parentElement
 // }
@@ -47,14 +64,14 @@ document.querySelector('img.imgHideAddColumn').onclick = event => {
 }
 
 function ocultarAddDelTask(imgCancel) {
-    const boxAddTask=imgCancel.parentElement.parentElement.parentElement
+    const boxAddTask = imgCancel.parentElement.parentElement.parentElement
     boxAddTask.style.height = "2em";
     boxAddTask.firstElementChild.placeholder = "+ Añade una tarea";
     boxAddTask.firstElementChild.style.border = "";
     boxAddTask.firstElementChild.style.backgroundColor = "";
     imgCancel.parentElement.parentElement.style.display = "none";
 }
-Array.from(document.querySelectorAll('img.imgHideAddTask')).forEach(cancelButton=>{
+Array.from(document.querySelectorAll('img.imgHideAddTask')).forEach(cancelButton => {
     cancelButton.onclick = event => {
         ocultarAddDelTask(event.target);
     }
@@ -74,19 +91,23 @@ function newColumn() {
     if (document.querySelector('.textAddColumn').value != '') {
         const columnId = Date.now();
         const title = document.querySelector('.textAddColumn').value;
-        document.querySelector('main').innerHTML += ` <div class="column" id="${columnId}">
-	            <h4>${title}</h4>
-                <div class="tasks" ondragover="preventDefault(event)"  ondrop="drop(event)"></div>
-	                <div class="boxAddTask">
-		                <textarea placeholder="+ Añada una tarea" cols="25" rows="2" onkeyup="newTask(event,${columnId})" class="textAddTask"></textarea>
+        document.querySelector('main').innerHTML += ` 
+        <div class="column" id="${columnId}">
+            <div class="headColumn">
+                <h5>${title}</h5>
+                <i class="far fa-trash-alt" onclick="removeColumn(${columnId})"></i>
+            </div>
+            <div class="tasks" ondragover="preventDefault(event)"  ondrop="drop(event)"></div>
+                <div class="boxAddTask">
+                    <textarea placeholder="+ Añada una tarea" cols="25" rows="2" onkeyup="newTask(event,${columnId})" class="textAddTask"></textarea>
                     <div class="addDelTask">
                         <input type="button" value="Añadir tarea" class="buttonAddTask">
                         <a href="#"><img src="/img/cancelar.png" alt="" class="imgHideAddTask"></a>
 		            </div>
 	            </div>
             </div>`
-            document.getElementById(columnId).childNodes
-            document.getElementById(columnId).childNodes[5].firstChild.nextSibling.focus()
+        document.getElementById(columnId).childNodes
+        document.getElementById(columnId).childNodes[5].firstChild.nextSibling.focus()
         const columns = localStorage.getItem('columns') ?
             JSON.parse(localStorage.getItem('columns')) : [];
         columns.push({
@@ -97,7 +118,7 @@ function newColumn() {
         localStorage.setItem('columns', JSON.stringify(columns));
         document.querySelector('.textAddColumn').value = '';
         ocultarAddDelColumn();
-        
+
     } else {
         // Mensaje error: "Debe ingresar el titulo de la columna"
     }
@@ -111,7 +132,7 @@ document.querySelector('.buttonAddColumn').onclick = event => {
     newColumn();
 }
 
-Array.from(document.querySelectorAll('.textAddTask')).forEach(textAddTask=>{
+Array.from(document.querySelectorAll('.textAddTask')).forEach(textAddTask => {
     textAddTask.onclick = event => {
         textAddTask.parentElement.style.height = "4em";
         textAddTask.placeholder = "Introduzca el nombre de la tarea";
@@ -129,19 +150,20 @@ function newTask(event, columnId) {
         const taskId = Date.now();
         document.getElementById(columnId).children[1].innerHTML += `
             <div class="task" id="${taskId}" draggable ondragstart ="drag(event,${taskId})" >
-                <h5>${event.target.value}</h5>
+                <h6>${event.target.value}</h6>
                 <i class="far fa-trash-alt" onclick="removeTask(${taskId})"></i>
             </div>`
         const columns = localStorage.getItem('columns') ?
             JSON.parse(localStorage.getItem('columns')) : [];
-        const currentColumn = columns.find(column =>{
-            console.log(column.id,columnId)
-            return column.id === columnId});
+        const currentColumn = columns.find(column => {
+            console.log(column.id, columnId)
+            return column.id === columnId
+        });
         currentColumn.tasks.push({
-            id:taskId,
+            id: taskId,
             title,
         })
-        localStorage.setItem('columns',JSON.stringify(columns))
+        localStorage.setItem('columns', JSON.stringify(columns))
         event.target.value = '';
         // const imgCancel=event.target.nextElementSibling.firstElementChild.firstElementChild
         // ocultarAddDelTask(imgCancel);
