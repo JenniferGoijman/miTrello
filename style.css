@@ -8,7 +8,7 @@
 body {
     background-color: #4f98ca;
     opacity: 0.9;
-    font-size: 13px;
+    font-size: 18px;
     color: #272727;
 }
 
@@ -89,7 +89,7 @@ input.textAddColumn:hover {
     height: fit-content;
     background-color: #effffb;
     transition: 0.5s;
-    width: 150px;
+    width: 210px;
 }
 
 
