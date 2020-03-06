@@ -24,6 +24,7 @@ main {
 a {
     color: #272727;
 }
+
 a:hover {
     color: #272727;
     text-decoration: none;
@@ -34,7 +35,6 @@ a:hover {
     border-radius: 0.2em;
     background-color: #effffb;
     width: 11.5em;
-    /*height: 2.5em;*/
     margin: 0.5em 0.5em 0 0.5em;
     display: flex;
     flex-direction: column;
@@ -49,7 +49,6 @@ input.textAddColumn {
     border-radius: 0.2em;
     opacity: 0.75;
     font-size: 75%;
-    /*height: auto;*/
 }
 
 input.textAddColumn:hover {
@@ -85,11 +84,6 @@ input.textAddColumn:hover {
 }
 
 /* -- MENU CREAR COLUMNAS */
-
-/*
-::placeholder {
-    color: black;
-}*/
 
 /* DISEÑO COLUMNAS -- */
 .column {
@@ -141,10 +135,16 @@ input.textAddColumn:hover {
     margin: 0.2em;
     cursor: pointer;
 }
-.task h6{
+
+.task h6 {
     word-wrap: break-word;
     width: 90%;
 }
+
+.dropdown-menu {
+    min-width: 7rem;
+}
+
 /* -- DISEÑO COLUMNAS */
 
 /* MENU CREAR TAREAS -- */
@@ -196,8 +196,3 @@ textarea.textAddTask:hover {
 }
 
 /* -- MENU CREAR TAREAS */
-
-
-.dropdown-menu {
-    min-width: 7rem;
-}

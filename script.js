@@ -183,7 +183,6 @@ function newColumn() {
 		            </div>
 	            </div>
             </div>`
-        //document.getElementById(columnId).childNodes[5].firstChild.nextSibling.focus()
         columns.push({
             id: columnId,
             title,
@@ -192,7 +191,6 @@ function newColumn() {
         localStorage.setItem('columns', JSON.stringify(columns));
         document.querySelector('.textAddColumn').value = '';
         ocultarAddDelColumn();
-
     } else {
         // Mensaje error: "Debe ingresar el titulo de la columna"
     }
@@ -221,8 +219,6 @@ function newTask(event, columnId) {
             </div>`
         newTaskInStorage(taskId, title, columnId);
         adjustHeightAddNewTask(event);
-        // const imgCancel=event.target.nextElementSibling.firstElementChild.firstElementChild
-        // ocultarAddDelTask(imgCancel);
     } else {
         // Mensaje error: "Debe ingresar el titulo de la columna"
     }
@@ -243,6 +239,7 @@ const newTaskInStorage = (taskId, title, columnId) => {
     localStorage.setItem('columns', JSON.stringify(columns));
 }
 const preventEnter = event => event.key === 'Enter' ? event.preventDefault() : '';
+
 function changeTitleColumn(event, columnId) {
     if (event.key === "Enter" || event.type === "blur") {
         const columns = localStorage.getItem('columns') ? JSON.parse(localStorage.getItem('columns')) : [];
@@ -252,12 +249,9 @@ function changeTitleColumn(event, columnId) {
         currentColumn.title = (event.target.innerText).replace(/\n/ig, '');;
         localStorage.setItem('columns', JSON.stringify(columns));
         event.target.blur();
-    }   
+    }
 }
 
 function getFocusInTitle(columnId) {
     document.getElementById(columnId).firstElementChild.firstElementChild.focus();
 }
-
-/*document.querySelector('[contenteditable]').focus();
-console.log(document.querySelector('[contenteditable]') .createRange() )*/
