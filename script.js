@@ -42,7 +42,6 @@ const drop = event => {
         removeTaskInStorage(taskId, columnaViejaId);
         newTaskInStorage(taskId, task.innerText, columnNuevaId);
     }
-
 }
 const columns = localStorage.getItem('columns') ? JSON.parse(localStorage.getItem('columns')) : [];
 
@@ -62,12 +61,12 @@ columns.forEach(column => {
     document.querySelector('main').innerHTML += ` 
     <div class="column" id="${column.id}" ondragover="preventDefault(event)" ondrop="drop(event)">
         <div class="headColumn">
-            <h5 contenteditable onblur="changeTitleColumn(event, ${column.id})">${column.title}</h5>
+            <h5 contenteditable onblur="changeTitleColumn(event, ${column.id})" onkeydown="preventEnter(event)" onkeyup="changeTitleColumn(event, ${column.id})">${column.title}</h5>
             <div class="btn-group">
                 <button type="button" class="btn btn-sm btn-default" data-toggle="dropdown"><img src="/img/puntitos.png" alt="" class="imgOptions"></button>
                 <ul class="dropdown-menu" role="menu">
                 <li><a href="#" onclick="removeColumn(${column.id})">Eliminar</a></li>
-                <li><a href="#">Cambiar nombre</a></li>
+                <li><a href="#" onclick="getFocusInTitle(${column.id})">Cambiar nombre</a></li>
                 </ul>
                 </div>
             </div>
@@ -207,11 +206,11 @@ function adjustHeightAddNewTask(event) {
 function newTask(event, columnId) {
     let title = '';
     if (event.key === "Enter") {
-         title = event.target.value.replace(/\n/ig, '');
-         event.target.value = '';
+        title = event.target.value.replace(/\n/ig, '');
+        event.target.value = '';
     } else if (event.type === "click") {
-         title = event.target.parentElement.previousElementSibling.value.replace(/\n/ig, '');
-         event.target.parentElement.previousElementSibling.value = '';
+        title = event.target.parentElement.previousElementSibling.value.replace(/\n/ig, '');
+        event.target.parentElement.previousElementSibling.value = '';
     }
     if (title != '') {
         const taskId = Date.now();
@@ -225,7 +224,7 @@ function newTask(event, columnId) {
         // ocultarAddDelTask(imgCancel);
     } else {
         // Mensaje error: "Debe ingresar el titulo de la columna"
-    }   
+    }
 }
 
 const newTaskInStorage = (taskId, title, columnId) => {
@@ -242,10 +241,22 @@ const newTaskInStorage = (taskId, title, columnId) => {
     })
     localStorage.setItem('columns', JSON.stringify(columns));
 }
-
+const preventEnter = event => event.key === 'Enter' ? event.preventDefault() : '';
 function changeTitleColumn(event, columnId) {
-    const columns = localStorage.getItem('columns') ? JSON.parse(localStorage.getItem('columns')) : [];   
-    const currentColumn = columns.find(column => { return column.id === +columnId });
-    currentColumn.title = event.target.innerText;
-    localStorage.setItem('columns', JSON.stringify(columns));
+    if (event.key === "Enter" || event.type === "blur") {
+        const columns = localStorage.getItem('columns') ? JSON.parse(localStorage.getItem('columns')) : [];
+        const currentColumn = columns.find(column => {
+            return column.id === +columnId
+        });
+        currentColumn.title = (event.target.innerText).replace(/\n/ig, '');;
+        localStorage.setItem('columns', JSON.stringify(columns));
+        event.target.blur();
+    }   
 }
+
+function getFocusInTitle(columnId) {
+    document.getElementById(columnId).firstElementChild.firstElementChild.focus();
+}
+
+/*document.querySelector('[contenteditable]').focus();
+console.log(document.querySelector('[contenteditable]') .createRange() )*/
