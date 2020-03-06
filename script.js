@@ -4,10 +4,10 @@ const drag = (event, taskId) => {
 }
 const preventDefault = event => event.preventDefault();
 const drop = event => {
-    const taskId = event.dataTransfer.getData("id");
-    const columnaViejaId = event.dataTransfer.getData("columnaViejaId");
+    const taskId = parseInt(event.dataTransfer.getData("id"));
+    const columnaViejaId = parseInt(event.dataTransfer.getData("columnaViejaId"));
     const task = document.getElementById(taskId);
-    let columnNuevaId = "";
+    let columnNuevaId = 0;
     
     if (event.target.localName=="h5" || event.target.className=="textAddTask"){//Si es drop es el encabezado
         columnNuevaId = event.target.parentElement.parentElement.id;
@@ -18,7 +18,7 @@ const drop = event => {
         columnNuevaId = event.target.parentElement.id;
         event.target.appendChild(task);
     }
-    
+    columnNuevaId=parseInt(columnNuevaId);
     //if (event.target.classList.contains('tasks')) {
         removeTaskInStorage(taskId, columnaViejaId);
         newTaskInStorage(taskId, task.innerText, columnNuevaId);
