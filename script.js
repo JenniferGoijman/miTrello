@@ -207,9 +207,11 @@ function adjustHeightAddNewTask(event) {
 function newTask(event, columnId) {
     let title = '';
     if (event.key === "Enter") {
-         title = event.target.value;
+         title = event.target.value.replace(/\n/ig, '');
+         event.target.value = '';
     } else if (event.type === "click") {
-         title = event.target.parentElement.previousElementSibling.value;
+         title = event.target.parentElement.previousElementSibling.value.replace(/\n/ig, '');
+         event.target.parentElement.previousElementSibling.value = '';
     }
     if (title != '') {
         const taskId = Date.now();
@@ -219,7 +221,6 @@ function newTask(event, columnId) {
                 <i class="far fa-trash-alt" onclick="removeTask(${taskId})"></i>
             </div>`
         newTaskInStorage(taskId, title, columnId);
-        event.target.value = '';
         // const imgCancel=event.target.nextElementSibling.firstElementChild.firstElementChild
         // ocultarAddDelTask(imgCancel);
     } else {
