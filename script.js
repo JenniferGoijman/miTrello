@@ -71,14 +71,15 @@ columns.forEach(column => {
                 </ul>
                 </div>
             </div>
-            <div class="tasks" ondragover="preventDefault(event)"  ondrop="drop(event)">${taskInStorage}</div>
+            <div class="tasks" ondragover="preventDefault(event)" ondrop="drop(event)">${taskInStorage}</div>
 	        <div class="boxAddTask">
                 <textarea placeholder="+ Añada una tarea" cols="20" rows="2"
                 onkeydown="adjustHeightAddNewTask(event)"
-                onkeyup="newTask(event,${column.id})" class="textAddTask"></textarea>
+                onkeyup="newTask(event,${column.id})"
+                onclick="showAddTasksMenu()" class="textAddTask"></textarea>
                 <div class="addDelTask">
                     <input type="button" value="Añadir tarea" class="buttonAddTask">
-                    <a href="#"><img src="/img/cancelar.png" alt="" class="imgHideAddTask"></a>
+                    <a href="#"><img src="/img/cancelar.png" alt="" class="imgHideAddTask" onclick="hideAddTasksMenu(event)"></a>
 		        </div>
 	        </div>
         </div>`
@@ -104,52 +105,44 @@ const removeColumn = (columnId) => {
     localStorage.setItem('columns', JSON.stringify(columnsFiltered));
     document.getElementById(columnId).remove();
 }
-
-// DESPLIEGA MENU AGREGAR COLUMNAS -- //
-document.querySelector('.textAddColumn').onclick = event => {
-    // document.querySelector('div.boxAddColumn').style.height = "4em";
+function showAddColumnMenu() {
+    document.querySelector('div.boxAddColumn').style.height = "4em";
     document.querySelector('input#textAddColumn.textAddColumn').placeholder = "Introduzca el título de la columna...";
     document.querySelector('input#textAddColumn.textAddColumn').style.border = "1px solid rgb(59, 180, 228)";
     document.querySelector('input#textAddColumn.textAddColumn').style.backgroundColor = "white";
     document.querySelector('.addDelColumn').style.display = "flex";
-}
-// OCULTA MENU AGREGAR COLUMNAS -- //
-document.querySelector('img.imgHideAddColumn').onclick = event => {
-    ocultarAddDelColumn();
-}
-
-function ocultarAddDelColumn() {
-    document.querySelector('div.boxAddColumn').style.height = "2em";
+  }
+function hideAddDelColumn() {
+    document.querySelector('div.boxAddColumn').style.height = "unset";
     document.querySelector('input#textAddColumn.textAddColumn').placeholder = "+ Añade una columna";
     document.querySelector('input#textAddColumn.textAddColumn').style.border = "";
     document.querySelector('input#textAddColumn.textAddColumn').style.backgroundColor = "";
     document.querySelector('div.addDelColumn').style.display = "none";
 }
 // DESPLIEGA MENU AGREGAR TAREAS -- //
+function showAddTasksMenu() {
 Array.from(document.querySelectorAll('.textAddTask')).forEach(textAddTask => {
     textAddTask.onclick = event => {
-        // textAddTask.parentElement.style.height = "4em";
+        textAddTask.parentElement.style.height = "unset";
         textAddTask.placeholder = "Introduzca el nombre de la tarea";
         textAddTask.style.border = "1px solid rgb(59, 180, 228)";
         textAddTask.style.backgroundColor = "white";
         textAddTask.nextElementSibling.style.display = "flex";
     }
-})
-// OCULTA MENU AGREGAR TAREAS -- //
-function ocultarAddDelTask(imgCancel) {
-    const boxAddTask = imgCancel.parentElement.parentElement.parentElement
-    // boxAddTask.style.height = "2em";
-    boxAddTask.firstElementChild.placeholder = "+ Añade una tarea";
-    boxAddTask.firstElementChild.style.border = "";
-    boxAddTask.firstElementChild.style.backgroundColor = "";
-    imgCancel.parentElement.parentElement.style.display = "none";
-}
+})}
 
-Array.from(document.querySelectorAll('img.imgHideAddTask')).forEach(cancelButton => {
-    cancelButton.onclick = event => {
-        ocultarAddDelTask(event.target);
-    }
-})
+function hideAddTasksMenu(event) {
+    Array.from(document.querySelectorAll('img.imgHideAddTask')).forEach(cancelButton => {
+        cancelButton.onclick = event => {
+            const boxAddTask = event.target.parentElement.parentElement.parentElement;
+            boxAddTask.style.height = "2em";
+            boxAddTask.firstElementChild.placeholder = "+ Añade una tarea";
+            boxAddTask.firstElementChild.style.border = "";
+            boxAddTask.firstElementChild.style.backgroundColor = "";
+            event.target.parentElement.parentElement.style.display = "none";
+        }
+    })   
+}
 
 document.querySelector('.textAddColumn').onkeyup = event => {
     if (event.key === "Enter") {
@@ -180,8 +173,8 @@ function newColumn() {
             <div class="tasks" ondragover="preventDefault(event)"  ondrop="drop(event)"></div>
                 <div class="boxAddTask">
                     <textarea placeholder="+ Añada una tarea" cols="25" rows="2" 
-                    onkeydown="adjustHeightAddNewTask(event)"
-                    onkeyup="newTask(event,${columnId})" class="textAddTask"></textarea>
+                    onkeydown="adjustHeightAddNewTask(event)" onkeyup="newTask(event,${columnId})" 
+                    onclick="showAddTasksMenu()" class="textAddTask"></textarea>
                     <div class="addDelTask">
                         <input type="button" value="Añadir tarea" class="buttonAddTask">
                         <a href="#"><img src="/img/cancelar.png" alt="" class="imgHideAddTask"></a>

@@ -148,6 +148,7 @@ input.textAddColumn:hover {
     display: inline-flex;
     flex-direction: column;
     opacity: 1;
+    height: 2em;
 }
 
 textarea.textAddTask {

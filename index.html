@@ -14,16 +14,16 @@
 
 <body>
     <div class="boxAddColumn">
-        <input type="text" placeholder="+ Añada una columna" class="textAddColumn" id="textAddColumn">
+        <input type="text" placeholder="+ Añada una columna" class="textAddColumn" id="textAddColumn" onclick="showAddColumnMenu()">
         <div class="addDelColumn">
             <input type="button" value="Añadir columna" class="buttonAddColumn">
-            <a href="#"><img src="/img/cancelar.png" alt="" class="imgHideAddColumn"></a>
+            <a href="#"><img src="/img/cancelar.png" alt="" class="imgHideAddColumn" onclick="hideAddDelColumn()"></a>
         </div>
     </div>
     
     <main>
         
-        <div class="column" id="1">
+        <!-- <div class="column" id="1">
             <div class="headColumn">
                 <h5>TABLA DEFAULT</h5>
                 <div class="btn-group">
@@ -33,7 +33,7 @@
                         <li><a href="#">Cambiar nombre</a></li>
                     </ul>
                 </div>
-                <!-- <i class="far fa-trash-alt" onclick="removeColumn(1)"></i> -->
+                <i class="far fa-trash-alt" onclick="removeColumn(1)"></i>
             </div>
             <div class="tasks" ondragover="preventDefault(event)" ondrop="drop(event)">
             </div>
@@ -44,7 +44,7 @@
                     <a href="#"><img src="/img/cancelar.png" alt="" class="imgHideAddTask"></a>
                 </div>
             </div>
-        </div>
+        </div> -->
         
     </main>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
