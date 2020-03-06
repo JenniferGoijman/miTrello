@@ -21,6 +21,14 @@ main {
     -webkit-user-drag: element;
 }
 
+a {
+    color: #272727;
+}
+a:hover {
+    color: #272727;
+    text-decoration: none;
+}
+
 /* MENU CREAR COLUMNAS -- */
 .boxAddColumn {
     border-radius: 0.2em;
