@@ -9,9 +9,12 @@ const drop = event => {
     const task = document.getElementById(taskId);
     let columnNuevaId = 0;
     
-    if (event.target.localName=="h5" || event.target.className=="textAddTask"){//Si es drop es el encabezado
+    if (event.target.localName=="h5"){
         columnNuevaId = event.target.parentElement.parentElement.id;
         event.target.parentElement.nextElementSibling.appendChild(task);
+    } else if (event.target.className=="textAddTask"){
+        columnNuevaId = event.target.parentElement.parentElement.id;
+        event.target.parentElement.previousElementSibling.appendChild(task);
     } else if (event.target.className=="boxAddTask") {
         columnNuevaId = event.target.parentElement.id;
     } else if (event.target.className=="tasks") {
