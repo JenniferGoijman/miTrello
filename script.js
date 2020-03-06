@@ -62,7 +62,7 @@ columns.forEach(column => {
     document.querySelector('main').innerHTML += ` 
     <div class="column" id="${column.id}" ondragover="preventDefault(event)" ondrop="drop(event)">
         <div class="headColumn">
-            <h5>${column.title}</h5>
+            <h5 contenteditable onblur="changeTitleColumn(event, ${column.id})">${column.title}</h5>
             <div class="btn-group">
                 <button type="button" class="btn btn-sm btn-default" data-toggle="dropdown"><img src="/img/puntitos.png" alt="" class="imgOptions"></button>
                 <ul class="dropdown-menu" role="menu">
@@ -164,7 +164,7 @@ function newColumn() {
         document.querySelector('main').innerHTML += ` 
         <div class="column" id="${columnId}" ondragover="preventDefault(event)" ondrop="drop(event)">
             <div class="headColumn">
-                <h5>${title}</h5>
+                <h5 contenteditable onblur="changeTitleColumn(event, ${column.id})">${title}</h5>
                 <div class="btn-group">
                 <button type="button" class="btn btn-sm btn-default" data-toggle="dropdown"><img src="/img/puntitos.png" 				alt="" class="imgOptions"></button>
                 <ul class="dropdown-menu" role="menu">
@@ -243,15 +243,9 @@ const newTaskInStorage = (taskId, title, columnId) => {
     localStorage.setItem('columns', JSON.stringify(columns));
 }
 
-// document.querySelector('.textAddTask').onkeyup = event => {
-//     if (event.key === "Enter") {
-
-//     }
-// }
-
-
-
-//tira error al principio porque no existe el elemento
-/*document.querySelector('.buttonAddTask').onclick = event => {
-    document.querySelector('.textAddTask').onkeyup;
-}*/
+function changeTitleColumn(event, columnId) {
+    const columns = localStorage.getItem('columns') ? JSON.parse(localStorage.getItem('columns')) : [];   
+    const currentColumn = columns.find(column => { return column.id === +columnId });
+    currentColumn.title = event.target.innerText;
+    localStorage.setItem('columns', JSON.stringify(columns));
+}
