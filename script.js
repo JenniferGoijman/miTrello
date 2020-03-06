@@ -63,7 +63,7 @@ columns.forEach(column => {
         <div class="headColumn">
             <h5 contenteditable onblur="changeTitleColumn(event, ${column.id})" onkeydown="preventEnter(event)" onkeyup="changeTitleColumn(event, ${column.id})">${column.title}</h5>
             <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-default" data-toggle="dropdown"><img src="/img/puntitos.png" alt="" class="imgOptions"></button>
+                <button type="button" class="btn btn-sm btn-default" data-toggle="dropdown"><img src="../img/puntitos.png" alt="" class="imgOptions"></button>
                 <ul class="dropdown-menu" role="menu">
                 <li><a href="#" onclick="removeColumn(${column.id})">Eliminar</a></li>
                 <li><a href="#" onclick="getFocusInTitle(${column.id})">Cambiar nombre</a></li>
@@ -78,7 +78,7 @@ columns.forEach(column => {
                 onclick="showAddTasksMenu()" class="textAddTask"></textarea>
                 <div class="addDelTask">
                     <input type="button" value="Añadir tarea" class="buttonAddTask" onclick="newTask(event,${column.id})">
-                    <a href="#"><img src="/img/cancelar.png" alt="" class="imgHideAddTask" onclick="hideAddTasksMenu(event)"></a>
+                    <a href="#"><img src="../img/cancelar.png" alt="" class="imgHideAddTask" onclick="hideAddTasksMenu(event)"></a>
 		        </div>
 	        </div>
         </div>`
@@ -165,7 +165,7 @@ function newColumn() {
             <div class="headColumn">
                 <h5 contenteditable onblur="changeTitleColumn(event, ${column.id})">${title}</h5>
                 <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-default" data-toggle="dropdown"><img src="/img/puntitos.png" 				alt="" class="imgOptions"></button>
+                <button type="button" class="btn btn-sm btn-default" data-toggle="dropdown"><img src="../img/puntitos.png" alt="" class="imgOptions"></button>
                 <ul class="dropdown-menu" role="menu">
                 <li><a href="#" onclick="removeColumn(${columnId})">Eliminar</a></li>
         	        <li><a href="#">Cambiar nombre</a></li>
@@ -179,7 +179,7 @@ function newColumn() {
                     onclick="showAddTasksMenu()" class="textAddTask"></textarea>
                     <div class="addDelTask">
                         <input type="button" value="Añadir tarea" class="buttonAddTask" onkeyup="newTask(event,${columnId})">
-                        <a href="#"><img src="/img/cancelar.png" alt="" class="imgHideAddTask"></a>
+                        <a href="#"><img src="../img/cancelar.png" alt="" class="imgHideAddTask"></a>
 		            </div>
 	            </div>
             </div>`
