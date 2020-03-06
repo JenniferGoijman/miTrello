@@ -96,7 +96,7 @@ input.textAddColumn:hover {
 .headColumn {
     display: flex;
     align-items: center;
-    width: 90%;
+    width: 95%;
 }
 
 .column h5 {
@@ -151,6 +151,7 @@ textarea.textAddTask {
     opacity: 0.75;
     font-size: 75%;
     height: auto;
+    overflow: hidden;
 }
 
 textarea.textAddTask:hover {

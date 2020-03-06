@@ -7,12 +7,22 @@ const drop = event => {
     const taskId = event.dataTransfer.getData("id");
     const columnaViejaId = event.dataTransfer.getData("columnaViejaId");
     const task = document.getElementById(taskId);
-    const columnNuevaId = event.target.parentElement.id;
-    if (event.target.classList.contains('tasks')) {
+    let columnNuevaId = "";
+    
+    if (event.target.localName=="h5" || event.target.className=="textAddTask"){//Si es drop es el encabezado
+        columnNuevaId = event.target.parentElement.parentElement.id;
+        event.target.parentElement.nextElementSibling.appendChild(task);
+    } else if (event.target.className=="boxAddTask") {
+        columnNuevaId = event.target.parentElement.id;
+    } else if (event.target.className=="tasks") {
+        columnNuevaId = event.target.parentElement.id;
         event.target.appendChild(task);
-        removeTaskInStorage(taskId, columnaViejaId);
-        newTaskInStorage(taskId, task.title, columnNuevaId);
     }
+    
+    //if (event.target.classList.contains('tasks')) {
+        removeTaskInStorage(taskId, columnaViejaId);
+        newTaskInStorage(taskId, task.innerText, columnNuevaId);
+    //}
 }
 const columns = localStorage.getItem('columns') ? JSON.parse(localStorage.getItem('columns')) : [];
 
@@ -37,7 +47,7 @@ columns.forEach(column => {
     </div>
         <div class="tasks" ondragover="preventDefault(event)"  ondrop="drop(event)">${taskInStorage}</div>
 	        <div class="boxAddTask">
-		        <textarea placeholder="+ Añada una tarea" cols="20" rows="1" onkeyup="newTask(event,${column.id})" class="textAddTask"></textarea>
+		        <textarea placeholder="+ Añada una tarea" cols="20" rows="2" onkeyup="newTask(event,${column.id})" class="textAddTask"></textarea>
                 <div class="addDelTask">
                     <input type="button" value="Añadir tarea" class="buttonAddTask">
                     <a href="#"><img src="/img/cancelar.png" alt="" class="imgHideAddTask"></a>
