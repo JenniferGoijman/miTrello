@@ -78,7 +78,7 @@ columns.forEach(column => {
                 onkeyup="newTask(event,${column.id})"
                 onclick="showAddTasksMenu()" class="textAddTask"></textarea>
                 <div class="addDelTask">
-                    <input type="button" value="Añadir tarea" class="buttonAddTask">
+                    <input type="button" value="Añadir tarea" class="buttonAddTask" onclick="newTask(event,${column.id})">
                     <a href="#"><img src="/img/cancelar.png" alt="" class="imgHideAddTask" onclick="hideAddTasksMenu(event)"></a>
 		        </div>
 	        </div>
@@ -105,13 +105,15 @@ const removeColumn = (columnId) => {
     localStorage.setItem('columns', JSON.stringify(columnsFiltered));
     document.getElementById(columnId).remove();
 }
+
 function showAddColumnMenu() {
     document.querySelector('div.boxAddColumn').style.height = "4em";
     document.querySelector('input#textAddColumn.textAddColumn').placeholder = "Introduzca el título de la columna...";
     document.querySelector('input#textAddColumn.textAddColumn').style.border = "1px solid rgb(59, 180, 228)";
     document.querySelector('input#textAddColumn.textAddColumn').style.backgroundColor = "white";
     document.querySelector('.addDelColumn').style.display = "flex";
-  }
+}
+
 function hideAddDelColumn() {
     document.querySelector('div.boxAddColumn').style.height = "unset";
     document.querySelector('input#textAddColumn.textAddColumn').placeholder = "+ Añade una columna";
@@ -121,15 +123,16 @@ function hideAddDelColumn() {
 }
 // DESPLIEGA MENU AGREGAR TAREAS -- //
 function showAddTasksMenu() {
-Array.from(document.querySelectorAll('.textAddTask')).forEach(textAddTask => {
-    textAddTask.onclick = event => {
-        textAddTask.parentElement.style.height = "unset";
-        textAddTask.placeholder = "Introduzca el nombre de la tarea";
-        textAddTask.style.border = "1px solid rgb(59, 180, 228)";
-        textAddTask.style.backgroundColor = "white";
-        textAddTask.nextElementSibling.style.display = "flex";
-    }
-})}
+    Array.from(document.querySelectorAll('.textAddTask')).forEach(textAddTask => {
+        textAddTask.onclick = event => {
+            textAddTask.parentElement.style.height = "unset";
+            textAddTask.placeholder = "Introduzca el nombre de la tarea";
+            textAddTask.style.border = "1px solid rgb(59, 180, 228)";
+            textAddTask.style.backgroundColor = "white";
+            textAddTask.nextElementSibling.style.display = "flex";
+        }
+    })
+}
 
 function hideAddTasksMenu(event) {
     Array.from(document.querySelectorAll('img.imgHideAddTask')).forEach(cancelButton => {
@@ -141,7 +144,7 @@ function hideAddTasksMenu(event) {
             boxAddTask.firstElementChild.style.backgroundColor = "";
             event.target.parentElement.parentElement.style.display = "none";
         }
-    })   
+    })
 }
 
 document.querySelector('.textAddColumn').onkeyup = event => {
@@ -176,7 +179,7 @@ function newColumn() {
                     onkeydown="adjustHeightAddNewTask(event)" onkeyup="newTask(event,${columnId})" 
                     onclick="showAddTasksMenu()" class="textAddTask"></textarea>
                     <div class="addDelTask">
-                        <input type="button" value="Añadir tarea" class="buttonAddTask">
+                        <input type="button" value="Añadir tarea" class="buttonAddTask" onkeyup="newTask(event,${columnId})">
                         <a href="#"><img src="/img/cancelar.png" alt="" class="imgHideAddTask"></a>
 		            </div>
 	            </div>
@@ -195,17 +198,24 @@ function newColumn() {
         // Mensaje error: "Debe ingresar el titulo de la columna"
     }
 }
+
 function adjustHeightAddNewTask(event) {
-  event.target.style.height = "1px";
-  event.target.style.height = (5+event.target.scrollHeight)+"px";
+    event.target.style.height = "1px";
+    event.target.style.height = (5 + event.target.scrollHeight) + "px";
 }
+
 function newTask(event, columnId) {
-    const title = (event.target.value).replace("\n", "");
-    if (title != '' && event.key === "Enter") {
+    let title = '';
+    if (event.key === "Enter") {
+         title = event.target.value;
+    } else if (event.type === "click") {
+         title = event.target.parentElement.previousElementSibling.value;
+    }
+    if (title != '') {
         const taskId = Date.now();
         document.getElementById(columnId).children[1].innerHTML += `
             <div class="task" id="${taskId}" draggable ondragstart ="drag(event,${taskId})" >
-                <h6>${event.target.value}</h6>
+                <h6>${title}</h6>
                 <i class="far fa-trash-alt" onclick="removeTask(${taskId})"></i>
             </div>`
         newTaskInStorage(taskId, title, columnId);
@@ -214,7 +224,7 @@ function newTask(event, columnId) {
         // ocultarAddDelTask(imgCancel);
     } else {
         // Mensaje error: "Debe ingresar el titulo de la columna"
-    }
+    }   
 }
 
 const newTaskInStorage = (taskId, title, columnId) => {
@@ -241,6 +251,6 @@ const newTaskInStorage = (taskId, title, columnId) => {
 
 
 //tira error al principio porque no existe el elemento
-document.querySelector('.buttonAddTask').onclick = event => {
+/*document.querySelector('.buttonAddTask').onclick = event => {
     document.querySelector('.textAddTask').onkeyup;
-}
+}*/
