@@ -61,13 +61,21 @@ columns.forEach(column => {
 
     document.querySelector('main').innerHTML += ` 
     <div class="column" id="${column.id}" ondragover="preventDefault(event)" ondrop="drop(event)">
-    <div class="headColumn">
-        <h5>${column.title}</h5>
-        <i class="far fa-trash-alt" onclick="removeColumn(${column.id})"></i>
-    </div>
-        <div class="tasks" ondragover="preventDefault(event)"  ondrop="drop(event)">${taskInStorage}</div>
+        <div class="headColumn">
+            <h5>${column.title}</h5>
+            <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-default" data-toggle="dropdown"><img src="/img/puntitos.png" alt="" class="imgOptions"></button>
+                <ul class="dropdown-menu" role="menu">
+                <li><a href="#" onclick="removeColumn(${column.id})">Eliminar</a></li>
+                <li><a href="#">Cambiar nombre</a></li>
+                </ul>
+                </div>
+            </div>
+            <div class="tasks" ondragover="preventDefault(event)"  ondrop="drop(event)">${taskInStorage}</div>
 	        <div class="boxAddTask">
-		        <textarea placeholder="+ Añada una tarea" cols="20" rows="2" onkeyup="newTask(event,${column.id})" class="textAddTask"></textarea>
+                <textarea placeholder="+ Añada una tarea" cols="20" rows="2"
+                onkeydown="adjustHeightAddNewTask(event)"
+                onkeyup="newTask(event,${column.id})" class="textAddTask"></textarea>
                 <div class="addDelTask">
                     <input type="button" value="Añadir tarea" class="buttonAddTask">
                     <a href="#"><img src="/img/cancelar.png" alt="" class="imgHideAddTask"></a>
@@ -99,7 +107,7 @@ const removeColumn = (columnId) => {
 
 // DESPLIEGA MENU AGREGAR COLUMNAS -- //
 document.querySelector('.textAddColumn').onclick = event => {
-    document.querySelector('div.boxAddColumn').style.height = "4em";
+    // document.querySelector('div.boxAddColumn').style.height = "4em";
     document.querySelector('input#textAddColumn.textAddColumn').placeholder = "Introduzca el título de la columna...";
     document.querySelector('input#textAddColumn.textAddColumn').style.border = "1px solid rgb(59, 180, 228)";
     document.querySelector('input#textAddColumn.textAddColumn').style.backgroundColor = "white";
@@ -120,7 +128,7 @@ function ocultarAddDelColumn() {
 // DESPLIEGA MENU AGREGAR TAREAS -- //
 Array.from(document.querySelectorAll('.textAddTask')).forEach(textAddTask => {
     textAddTask.onclick = event => {
-        textAddTask.parentElement.style.height = "4em";
+        // textAddTask.parentElement.style.height = "4em";
         textAddTask.placeholder = "Introduzca el nombre de la tarea";
         textAddTask.style.border = "1px solid rgb(59, 180, 228)";
         textAddTask.style.backgroundColor = "white";
@@ -130,7 +138,7 @@ Array.from(document.querySelectorAll('.textAddTask')).forEach(textAddTask => {
 // OCULTA MENU AGREGAR TAREAS -- //
 function ocultarAddDelTask(imgCancel) {
     const boxAddTask = imgCancel.parentElement.parentElement.parentElement
-    boxAddTask.style.height = "2em";
+    // boxAddTask.style.height = "2em";
     boxAddTask.firstElementChild.placeholder = "+ Añade una tarea";
     boxAddTask.firstElementChild.style.border = "";
     boxAddTask.firstElementChild.style.backgroundColor = "";
@@ -161,11 +169,19 @@ function newColumn() {
         <div class="column" id="${columnId}" ondragover="preventDefault(event)" ondrop="drop(event)">
             <div class="headColumn">
                 <h5>${title}</h5>
-                <i class="far fa-trash-alt" onclick="removeColumn(${columnId})"></i>
+                <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-default" data-toggle="dropdown"><img src="/img/puntitos.png" 				alt="" class="imgOptions"></button>
+                <ul class="dropdown-menu" role="menu">
+                <li><a href="#" onclick="removeColumn(${columnId})">Eliminar</a></li>
+        	        <li><a href="#">Cambiar nombre</a></li>
+                	</ul>
+                </div>
             </div>
             <div class="tasks" ondragover="preventDefault(event)"  ondrop="drop(event)"></div>
                 <div class="boxAddTask">
-                    <textarea placeholder="+ Añada una tarea" cols="25" rows="2" onkeyup="newTask(event,${columnId})" class="textAddTask"></textarea>
+                    <textarea placeholder="+ Añada una tarea" cols="25" rows="2" 
+                    onkeydown="adjustHeightAddNewTask(event)"
+                    onkeyup="newTask(event,${columnId})" class="textAddTask"></textarea>
                     <div class="addDelTask">
                         <input type="button" value="Añadir tarea" class="buttonAddTask">
                         <a href="#"><img src="/img/cancelar.png" alt="" class="imgHideAddTask"></a>
@@ -186,7 +202,10 @@ function newColumn() {
         // Mensaje error: "Debe ingresar el titulo de la columna"
     }
 }
-
+function adjustHeightAddNewTask(event) {
+  event.target.style.height = "1px";
+  event.target.style.height = (5+event.target.scrollHeight)+"px";
+}
 function newTask(event, columnId) {
     const title = (event.target.value).replace("\n", "");
     if (title != '' && event.key === "Enter") {

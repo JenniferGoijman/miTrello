@@ -14,7 +14,6 @@ body {
 
 main {
     display: flex;
-    padding: 0.3em;
 }
 
 [draggable] {
@@ -70,6 +69,13 @@ input.textAddColumn:hover {
     margin: 5px;
 }
 
+.imgOptions {
+    width: 10px;
+    height: 10px;
+    opacity: 0.75;
+    margin: 5px;
+}
+
 /* -- MENU CREAR COLUMNAS */
 
 /*
@@ -83,7 +89,7 @@ input.textAddColumn:hover {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    margin: 0.3em;
+    margin: 0.5em 0 0 0.5em;
     /*min-height: 50vh;*/
     border-radius: 0.2em;
     height: fit-content;
@@ -92,11 +98,10 @@ input.textAddColumn:hover {
     width: 210px;
 }
 
-
 .headColumn {
     display: flex;
     align-items: center;
-    width: 95%;
+    width: 100%;
 }
 
 .column h5 {
@@ -104,7 +109,7 @@ input.textAddColumn:hover {
     width: 100%;
     text-align: left;
     border-radius: 0.2em 0.2em 0 0;
-    padding: 0.4em 0.4em;
+    padding: 0.4em 0 0 0.4em;
 }
 
 .column:hover {
@@ -128,7 +133,10 @@ input.textAddColumn:hover {
     margin: 0.2em;
     cursor: pointer;
 }
-
+.task h6{
+    word-wrap: break-word;
+    width: 90%;
+}
 /* -- DISEÑO COLUMNAS */
 
 /* MENU CREAR TAREAS -- */
@@ -136,9 +144,8 @@ input.textAddColumn:hover {
     border-radius: 0.2em;
     background-color: #effffb;
     width: 11.5em;
-    height: 2em;
     margin: 0 0.5em 0 0.5em;
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     opacity: 1;
 }
@@ -150,7 +157,7 @@ textarea.textAddTask {
     border-radius: 0.2em;
     opacity: 0.75;
     font-size: 75%;
-    height: auto;
+    word-wrap: break-word;
     overflow: hidden;
 }
 
@@ -180,3 +187,8 @@ textarea.textAddTask:hover {
 }
 
 /* -- MENU CREAR TAREAS */
+
+
+.dropdown-menu {
+    min-width: 7rem;
+}
