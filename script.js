@@ -163,7 +163,7 @@ function newColumn() {
         document.querySelector('main').innerHTML += ` 
         <div class="column" id="${columnId}" ondragover="preventDefault(event)" ondrop="drop(event)">
             <div class="headColumn">
-                <h5 contenteditable onblur="changeTitleColumn(event, ${columnId})">${title}</h5>
+                <h5 contenteditable onblur="changeTitleColumn(event, ${columnId})" onkeydown="preventEnter(event)" onkeyup="changeTitleColumn(event, ${columnId})"">${title}</h5>
                 <div class="btn-group">
                 <button type="button" class="btn btn-sm btn-default" data-toggle="dropdown"><img src="../img/puntitos.png" alt="" class="imgOptions"></button>
                 <ul class="dropdown-menu" role="menu">
