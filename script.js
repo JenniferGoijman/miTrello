@@ -220,6 +220,7 @@ function newTask(event, columnId) {
                 <i class="far fa-trash-alt" onclick="removeTask(${taskId})"></i>
             </div>`
         newTaskInStorage(taskId, title, columnId);
+        adjustHeightAddNewTask(event);
         // const imgCancel=event.target.nextElementSibling.firstElementChild.firstElementChild
         // ocultarAddDelTask(imgCancel);
     } else {
