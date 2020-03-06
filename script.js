@@ -5,27 +5,44 @@ const drag = (event, taskId) => {
 const preventDefault = event => event.preventDefault();
 const drop = event => {
     const taskId = parseInt(event.dataTransfer.getData("id"));
-    const columnaViejaId = parseInt(event.dataTransfer.getData("columnaViejaId"));
     const task = document.getElementById(taskId);
+    const columnaViejaId = parseInt(event.dataTransfer.getData("columnaViejaId"));
     let columnNuevaId = 0;
-    
-    if (event.target.localName=="h5"){
+    let yaEsta = false;
+
+    if (event.target.localName == "h5") {
         columnNuevaId = event.target.parentElement.parentElement.id;
         event.target.parentElement.nextElementSibling.appendChild(task);
-    } else if (event.target.className=="textAddTask"){
+    } else if (event.target.className == "textAddTask") {
         columnNuevaId = event.target.parentElement.parentElement.id;
         event.target.parentElement.previousElementSibling.appendChild(task);
-    } else if (event.target.className=="boxAddTask") {
+    } else if (event.target.className == "column") {
+        columnNuevaId = event.target.id;
+        event.target.firstElementChild.nextElementSibling.appendChild(task);
+    } else if (event.target.className == "boxAddTask") {
         columnNuevaId = event.target.parentElement.id;
-    } else if (event.target.className=="tasks") {
-        columnNuevaId = event.target.parentElement.id;
-        event.target.appendChild(task);
+        event.target.previousElementSibling.appendChild(task);
+    } else if (event.target.className == "tasks") {
+        if (!event.target.innerHTML.includes(taskId)) {
+            columnNuevaId = event.target.parentElement.id;
+            event.target.appendChild(task);
+        } else {
+            yaEsta = true;
+        }
+    } else if (event.target.className == "task") {
+        if (!event.target.parentElement.innerHTML.includes(taskId)) {
+            columnNuevaId = event.target.parentElement.parentElement.id;
+            event.target.parentElement.appendChild(task);
+        } else {
+            yaEsta = true;
+        }
     }
-    columnNuevaId=parseInt(columnNuevaId);
-    //if (event.target.classList.contains('tasks')) {
+    if (!yaEsta) {
+        columnNuevaId = parseInt(columnNuevaId);
         removeTaskInStorage(taskId, columnaViejaId);
         newTaskInStorage(taskId, task.innerText, columnNuevaId);
-    //}
+    }
+
 }
 const columns = localStorage.getItem('columns') ? JSON.parse(localStorage.getItem('columns')) : [];
 
@@ -92,6 +109,7 @@ document.querySelector('.textAddColumn').onclick = event => {
 document.querySelector('img.imgHideAddColumn').onclick = event => {
     ocultarAddDelColumn();
 }
+
 function ocultarAddDelColumn() {
     document.querySelector('div.boxAddColumn').style.height = "2em";
     document.querySelector('input#textAddColumn.textAddColumn').placeholder = "+ Añade una columna";
@@ -204,7 +222,7 @@ const newTaskInStorage = (taskId, title, columnId) => {
 
 // document.querySelector('.textAddTask').onkeyup = event => {
 //     if (event.key === "Enter") {
-        
+
 //     }
 // }
 
