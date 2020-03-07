@@ -52,7 +52,7 @@ columns.forEach(column => {
         column.tasks.forEach(task => {
             taskInStorage += `
             <div class="task" id="${task.id}" draggable ondragstart ="drag(event,${task.id})" >
-                <h6>${task.title}</h6>
+                <h6 contenteditable onblur="changeTitleTask(event, ${task.id})" onkeydown="preventEnter(event)" onkeyup="changeTitleTask(event, ${task.id})">${task.title}</h6>
                 <i class="far fa-trash-alt" onclick="removeTask(${task.id})"></i>
             </div>`
         })
@@ -168,8 +168,8 @@ function newColumn() {
                 <button type="button" class="btn btn-sm btn-default" data-toggle="dropdown"><img src="puntitos.png" alt="" class="imgOptions"></button>
                 <ul class="dropdown-menu" role="menu">
                 <li><a href="#" onclick="removeColumn(${columnId})">Eliminar</a></li>
-        	        <li><a href="#">Cambiar nombre</a></li>
-                	</ul>
+                <li><a href="#" onclick="getFocusInTitle(${columnId})">Cambiar nombre</a></li>
+                </ul>
                 </div>
             </div>
             <div class="tasks" ondragover="preventDefault(event)"  ondrop="drop(event)"></div>
@@ -190,7 +190,7 @@ function newColumn() {
         })
         localStorage.setItem('columns', JSON.stringify(columns));
         document.querySelector('.textAddColumn').value = '';
-        ocultarAddDelColumn();
+        hideAddDelColumn();
     } else {
         // Mensaje error: "Debe ingresar el titulo de la columna"
     }
@@ -214,7 +214,7 @@ function newTask(event, columnId) {
         const taskId = Date.now();
         document.getElementById(columnId).children[1].innerHTML += `
             <div class="task" id="${taskId}" draggable ondragstart ="drag(event,${taskId})" >
-                <h6>${title}</h6>
+                <h6 contenteditable onblur="changeTitleTask(event, ${taskId})" onkeydown="preventEnter(event)" onkeyup="changeTitleTask(event, ${taskId})>${title}</h6>
                 <i class="far fa-trash-alt" onclick="removeTask(${taskId})"></i>
             </div>`
         newTaskInStorage(taskId, title, columnId);
@@ -254,4 +254,15 @@ function changeTitleColumn(event, columnId) {
 
 function getFocusInTitle(columnId) {
     document.getElementById(columnId).firstElementChild.firstElementChild.focus();
+}
+
+function changeTitleTask(event, taskId) {
+    if (event.key === "Enter" || event.type === "blur") {
+        const currentColumnId = document.getElementById(taskId).parentElement.parentElement.id;
+        const currentColumn = columns.find(column => column.id == currentColumnId);
+        const currentTask = currentColumn.tasks.find(task => task.id == taskId);
+        currentTask.title = (event.target.innerText).replace(/\n/ig, '');;
+        localStorage.setItem('columns', JSON.stringify(columns));
+        event.target.blur();
+    }
 }
