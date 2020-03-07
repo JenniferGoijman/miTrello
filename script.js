@@ -260,7 +260,7 @@ function changeTitleTask(event, taskId) {
         const currentColumnId = document.getElementById(taskId).parentElement.parentElement.id;
         const currentColumn = columns.find(column => column.id == currentColumnId);
         const currentTask = currentColumn.tasks.find(task => task.id == taskId);
-        currentTask.title = (event.target.innerText).replace(/\n/ig, '');;
+        currentTask.title = (event.target.innerText).replace(/\n/ig, '');
         localStorage.setItem('columns', JSON.stringify(columns));
         event.target.blur();
     }
