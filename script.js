@@ -190,7 +190,6 @@ function newColumn() {
         })
         localStorage.setItem('columns', JSON.stringify(columns));
         document.querySelector('.textAddColumn').value = '';
-        hideAddDelColumn();
     } else {
         // Mensaje error: "Debe ingresar el titulo de la columna"
     }
@@ -214,7 +213,7 @@ function newTask(event, columnId) {
         const taskId = Date.now();
         document.getElementById(columnId).children[1].innerHTML += `
             <div class="task" id="${taskId}" draggable ondragstart ="drag(event,${taskId})" >
-                <h6 contenteditable onblur="changeTitleTask(event, ${taskId})" onkeydown="preventEnter(event)" onkeyup="changeTitleTask(event, ${taskId})>${title}</h6>
+                <h6 contenteditable onblur="changeTitleTask(event, ${taskId})" onkeydown="preventEnter(event)" onkeyup="changeTitleTask(event, ${taskId})">${title}</h6>
                 <i class="far fa-trash-alt" onclick="removeTask(${taskId})"></i>
             </div>`
         newTaskInStorage(taskId, title, columnId);
