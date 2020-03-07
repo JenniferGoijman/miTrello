@@ -12,6 +12,25 @@ body {
     color: #272727;
 }
 
+header {
+    background-color: #307aac;
+    height: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+header img {
+    height: 30px;
+    opacity: 0.75;
+    margin-top: 5px;
+}
+
+header img:hover {
+    opacity: 1;
+}
+
 main {
     display: flex;
 }
