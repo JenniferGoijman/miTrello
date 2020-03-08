@@ -75,7 +75,7 @@ columns.forEach(column => {
                 <textarea placeholder="+ Añada una tarea" cols="20" rows="2"
                 onkeydown="adjustHeightAddNewTask(event)"
                 onkeyup="newTask(event,${column.id})"
-                onclick="showAddTasksMenu()" class="textAddTask"></textarea>
+                onclick="showAddTasksMenu(event)" class="textAddTask"></textarea>
                 <div class="addDelTask">
                     <input type="button" value="Añadir tarea" class="buttonAddTask" onclick="newTask(event,${column.id})">
                     <a href="#"><img src="cancelar.png" alt="" class="imgHideAddTask" onclick="hideAddTasksMenu(event)"></a>
@@ -121,17 +121,32 @@ function hideAddDelColumn() {
     document.querySelector('div.addDelColumn').style.display = "none";
 }
 // DESPLIEGA MENU AGREGAR TAREAS -- //
-function showAddTasksMenu() {
-    Array.from(document.querySelectorAll('.textAddTask')).forEach(textAddTask => {
-        textAddTask.onclick = event => {
-            textAddTask.parentElement.style.height = "unset";
-            textAddTask.placeholder = "Introduzca el nombre de la tarea";
-            textAddTask.style.border = "1px solid rgb(59, 180, 228)";
-            textAddTask.style.backgroundColor = "white";
-            textAddTask.nextElementSibling.style.display = "flex";
-        }
-    })
+// function showAddTasksMenu() {
+//     Array.from(document.querySelectorAll('.textAddTask')).forEach(textAddTask => {
+//         textAddTask.onclick = event => {
+//             textAddTask.parentElement.style.height = "unset";
+//             textAddTask.placeholder = "Introduzca el nombre de la tarea";
+//             textAddTask.style.border = "1px solid rgb(59, 180, 228)";
+//             textAddTask.style.backgroundColor = "white";
+//             textAddTask.nextElementSibling.style.display = "flex";
+//         }
+//     })
+// }
+
+function showAddTasksMenu(event) {
+    if (event.key === "Enter" ||  event.currentTarget.type === "textarea") {
+        currentTextAddTask = event.target;       
+    } else if (event.currentTarget.type === "textarea") {
+        currentTextAddTask = event.target.parentElement.parentElement.firstElementChild;
+    }   
+    currentTextAddTask.parentElement.style.height = "unset";
+    currentTextAddTask.placeholder = "Introduzca el nombre de la tarea";
+    currentTextAddTask.style.border = "1px solid rgb(59, 180, 228)";
+    currentTextAddTask.style.height = "2em";
+    currentTextAddTask.style.backgroundColor = "white";
+    currentTextAddTask.nextElementSibling.style.display = "flex";
 }
+
 
 function hideAddTasksMenu(event) {
     Array.from(document.querySelectorAll('img.imgHideAddTask')).forEach(cancelButton => {
@@ -144,15 +159,6 @@ function hideAddTasksMenu(event) {
             event.target.parentElement.parentElement.style.display = "none";
         }
     })
-}
-
-document.querySelector('.textAddColumn').onkeyup = event => {
-    if (event.key === "Enter") {
-        newColumn();
-    }
-}
-document.querySelector('.buttonAddColumn').onclick = event => {
-    newColumn();
 }
 
 function newColumn() {
@@ -176,7 +182,7 @@ function newColumn() {
                 <div class="boxAddTask">
                     <textarea placeholder="+ Añada una tarea" cols="25" rows="2" 
                     onkeydown="adjustHeightAddNewTask(event)" onkeyup="newTask(event,${columnId})" 
-                    onclick="showAddTasksMenu()" class="textAddTask"></textarea>
+                    onclick="showAddTasksMenu(event)" class="textAddTask"></textarea>
                     <div class="addDelTask">
                         <input type="button" value="Añadir tarea" class="buttonAddTask" onkeyup="newTask(event,${columnId})">
                         <a href="#"><img src="../img/cancelar.png" alt="" class="imgHideAddTask"></a>
@@ -217,7 +223,7 @@ function newTask(event, columnId) {
                 <i class="far fa-trash-alt" onclick="removeTask(${taskId})"></i>
             </div>`
         newTaskInStorage(taskId, title, columnId);
-        adjustHeightAddNewTask(event);
+        showAddTasksMenu(event);
     } else {
         // Mensaje error: "Debe ingresar el titulo de la columna"
     }
