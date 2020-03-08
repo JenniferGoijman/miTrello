@@ -161,41 +161,43 @@ function hideAddTasksMenu(event) {
     })
 }
 
-function newColumn() {
-    if (document.querySelector('.textAddColumn').value != '') {
-        const columns = localStorage.getItem('columns') ? JSON.parse(localStorage.getItem('columns')) : [];
-        const columnId = Date.now();
-        const title = document.querySelector('.textAddColumn').value;
-        document.querySelector('main').innerHTML += ` 
-        <div class="column" id="${columnId}" ondragover="preventDefault(event)" ondrop="drop(event)">
-            <div class="headColumn">
-                <h5 contenteditable onblur="changeTitleColumn(event, ${columnId})" onkeydown="preventEnter(event)" onkeyup="changeTitleColumn(event, ${columnId})"">${title}</h5>
-                <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-default" data-toggle="dropdown"><img src="puntitos.png" alt="" class="imgOptions"></button>
-                <ul class="dropdown-menu" role="menu">
-                <li><a href="#" onclick="removeColumn(${columnId})">Eliminar</a></li>
-                <li><a href="#" onclick="getFocusInTitle(${columnId})">Cambiar nombre</a></li>
-                </ul>
+function newColumn(event) {
+    if (event.key === "Enter" || event.type === "click") {
+        if (document.querySelector('.textAddColumn').value != '') {
+            const columns = localStorage.getItem('columns') ? JSON.parse(localStorage.getItem('columns')) : [];
+            const columnId = Date.now();
+            const title = document.querySelector('.textAddColumn').value;
+            document.querySelector('main').innerHTML += ` 
+            <div class="column" id="${columnId}" ondragover="preventDefault(event)" ondrop="drop(event)">
+                <div class="headColumn">
+                    <h5 contenteditable onblur="changeTitleColumn(event, ${columnId})" onkeydown="preventEnter(event)" onkeyup="changeTitleColumn(event, ${columnId})"">${title}</h5>
+                    <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-default" data-toggle="dropdown"><img src="puntitos.png" alt="" class="imgOptions"></button>
+                    <ul class="dropdown-menu" role="menu">
+                    <li><a href="#" onclick="removeColumn(${columnId})">Eliminar</a></li>
+                    <li><a href="#" onclick="getFocusInTitle(${columnId})">Cambiar nombre</a></li>
+                    </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="tasks" ondragover="preventDefault(event)"  ondrop="drop(event)"></div>
-                <div class="boxAddTask">
-                    <textarea placeholder="+ Añada una tarea" cols="25" rows="2" 
-                    onkeydown="adjustHeightAddNewTask(event)" onkeyup="newTask(event,${columnId})" 
-                    onclick="showAddTasksMenu(event)" class="textAddTask"></textarea>
-                    <div class="addDelTask">
-                        <input type="button" value="Añadir tarea" class="buttonAddTask" onkeyup="newTask(event,${columnId})">
-                        <a href="#"><img src="../img/cancelar.png" alt="" class="imgHideAddTask"></a>
-		            </div>
-	            </div>
-            </div>`
-        columns.push({
-            id: columnId,
-            title,
-            tasks: []
-        })
-        localStorage.setItem('columns', JSON.stringify(columns));
-        document.querySelector('.textAddColumn').value = '';
+                <div class="tasks" ondragover="preventDefault(event)"  ondrop="drop(event)"></div>
+                    <div class="boxAddTask">
+                        <textarea placeholder="+ Añada una tarea" cols="25" rows="2" 
+                        onkeydown="adjustHeightAddNewTask(event)" onkeyup="newTask(event,${columnId})" 
+                        onclick="showAddTasksMenu(event)" class="textAddTask"></textarea>
+                        <div class="addDelTask">
+                            <input type="button" value="Añadir tarea" class="buttonAddTask" onkeyup="newTask(event,${columnId})">
+                            <a href="#"><img src="../img/cancelar.png" alt="" class="imgHideAddTask"></a>
+                        </div>
+                    </div>
+                </div>`
+            columns.push({
+                id: columnId,
+                title,
+                tasks: []
+            })
+            localStorage.setItem('columns', JSON.stringify(columns));
+            document.querySelector('.textAddColumn').value = '';
+        }
     } else {
         // Mensaje error: "Debe ingresar el titulo de la columna"
     }

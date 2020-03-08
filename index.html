@@ -19,9 +19,9 @@
     </header>
     <div class="boxAddColumn">
         <input type="text" placeholder="+ Añada una columna" class="textAddColumn" id="textAddColumn"
-            onclick="showAddColumnMenu()" onkeyup="newColumn()">
+            onclick="showAddColumnMenu()" onkeyup="newColumn(event)">
         <div class="addDelColumn">
-            <input type="button" value="Añadir columna" class="buttonAddColumn" onclick="newColumn()">
+            <input type="button" value="Añadir columna" class="buttonAddColumn" onclick="newColumn(event)">
             <a href="#"><img src="cancelar.png" alt="" class="imgHideAddColumn" onclick="hideAddDelColumn()"></a>
         </div>
     </div>
